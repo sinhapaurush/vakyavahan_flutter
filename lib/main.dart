@@ -12,23 +12,23 @@ class VakyaVahan extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        // textTheme: GoogleFonts.robotoTextTheme(Theme.of(context).textTheme),
         appBarTheme: const AppBarTheme(
           // backgroundColor: Color.fromARGB(255, 48, 48, 48),
           backgroundColor: Color.fromARGB(255, 4, 68, 62),
           elevation: 2,
         ),
         colorScheme: const ColorScheme(
-            brightness: Brightness.dark,
-            primary: Colors.teal,
-            onPrimary: Colors.white,
-            secondary: Colors.grey,
-            onSecondary: Colors.black,
-            error: Colors.red,
-            onError: Colors.black,
-            background: Colors.black,
-            onBackground: Colors.white,
-            surface: Colors.black12,
-            onSurface: Colors.white),
+          brightness: Brightness.dark,
+          primary: Colors.teal,
+          onPrimary: Colors.white,
+          secondary: Colors.grey,
+          onSecondary: Colors.black,
+          error: Colors.red,
+          onError: Colors.black,
+          surface: Colors.black12,
+          onSurface: Colors.white,
+        ),
       ),
       home: const LoadingScreen(),
     );

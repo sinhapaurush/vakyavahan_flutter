@@ -15,10 +15,10 @@ class PrimaryBtn extends StatelessWidget {
         onTap: onPress,
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.teal,
-            borderRadius: BorderRadius.circular(10),
+            color: const Color.fromARGB(255, 7, 105, 95),
+            borderRadius: BorderRadius.circular(7),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
           child: Text(text),
         ),
       ),
