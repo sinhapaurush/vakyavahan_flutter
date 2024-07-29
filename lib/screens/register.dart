@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vakyavahan/methods/server.dart';
+import 'package:vakyavahan/screens/home.dart';
 import 'package:vakyavahan/widget/button.dart';
 import 'package:vakyavahan/widget/spacer.dart';
 import 'package:vakyavahan/widget/textbox.dart';
@@ -32,27 +33,28 @@ class RegisterState extends State {
     setState(() {
       isProgress = false;
     });
+    Navigator.of(context).pop();
   }
 
   Future<void> validate() async {
     String name = nameHandler.value.text;
     String org = orgHandler.value.text;
-    double navigateToNextStep = 5;
+    bool hitApi = true;
 
     if (name.length < 2) {
       setState(() {
         nameErr = "Enter full name";
       });
-      navigateToNextStep--;
+      hitApi = false;
     }
     if (!(org.length > 3)) {
       setState(() {
         orgErr = "Enter complete organisation name";
       });
-      navigateToNextStep--;
+      hitApi = false;
     }
 
-    if (navigateToNextStep == 5) {
+    if (hitApi) {
       showProgress();
       bool didCreatedNewUser = await newAccountRequest(name, org);
       if (!didCreatedNewUser) {
@@ -61,6 +63,7 @@ class RegisterState extends State {
               context: context,
               builder: (BuildContext context_) {
                 return AlertDialog(
+                  backgroundColor: Colors.black,
                   title: const Text("Error"),
                   content: const Text("Unable to complete the request"),
                   actions: [
@@ -71,6 +74,11 @@ class RegisterState extends State {
                   ],
                 );
               });
+        }
+      } else {
+        if (mounted) {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (BuildContext context_) => const HomeScreen()));
         }
       }
     }
