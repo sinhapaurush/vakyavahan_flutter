@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vakyavahan/methods/server.dart';
 import 'package:vakyavahan/screens/home.dart';
 import 'package:vakyavahan/widget/button.dart';
@@ -21,12 +22,39 @@ class RegisterState extends State {
 
   String? nameErr;
   String? orgErr;
-  bool isProgress = false;
+  bool isProgress = true;
 
   void showProgress() {
     setState(() {
       isProgress = true;
     });
+  }
+
+  Future<void> checkExistingLoginCreds() async {
+    super.initState();
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    String? authToken = sp.getString("auth");
+    String? clientToken = sp.getString("client");
+
+    if ((authToken != null) && (clientToken != null)) {
+      if (mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (BuildContext context_) {
+            return const HomeScreen();
+          }),
+        );
+      }
+    } else {
+      setState(() {
+        isProgress = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkExistingLoginCreds();
   }
 
   void hideProgress() {

@@ -1,7 +1,43 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: prefer_const_constructors
 
-class ConfigScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vakyavahan/widget/simpletextbox.dart';
+
+class ConfigScreen extends StatefulWidget {
   const ConfigScreen({super.key});
+
+  @override
+  State<ConfigScreen> createState() => _ConfigScreenState();
+}
+
+class _ConfigScreenState extends State<ConfigScreen> {
+  TextEditingController nameController = TextEditingController();
+
+  TextEditingController orgController = TextEditingController();
+
+  TextEditingController authKeyController = TextEditingController();
+
+  TextEditingController clientKeyController = TextEditingController();
+
+  Future<void> fetchValuesFromSharedPrefs() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    String name = sp.getString("username")!;
+    String org = sp.getString("org")!;
+    String authToken = sp.getString("auth")!;
+    String clientToken = sp.getString("client")!;
+
+    nameController.text = name;
+    orgController.text = org;
+    authKeyController.text = authToken;
+    clientKeyController.text = clientToken;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchValuesFromSharedPrefs();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,29 +48,18 @@ class ConfigScreen extends StatelessWidget {
           title: const Text("Configurations"),
           centerTitle: true,
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-          child: TextField(
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: const Color.fromARGB(255, 61, 61, 61),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5),
-                borderSide: BorderSide(
-                  color: Colors.white,
-                ),
-              ),
-              labelStyle: TextStyle(color: Colors.white),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5),
-                borderSide: BorderSide(
-                  color: Colors.white,
-                ),
-              ),
-              label: Text("Name"),
-            ),
-          ),
-        )
+        Simpletextbox(label: "Name", controller: nameController),
+        Simpletextbox(label: "Organisation Name", controller: orgController),
+        Simpletextbox(
+          label: "Auth Key",
+          controller: authKeyController,
+          readOnly: true,
+        ),
+        Simpletextbox(
+          label: "Client Key",
+          controller: clientKeyController,
+          readOnly: true,
+        ),
       ],
     );
   }

@@ -57,6 +57,8 @@ Future<bool> newAccountRequest(String name, String org) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     sp.setString("auth", response['authtoken']);
     sp.setString("client", response['clienttoken']);
+    sp.setString("username", name);
+    sp.setString("org", org);
     return true;
   }
   return false;

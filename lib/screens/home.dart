@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vakyavahan/screens/main/donate.dart';
 import 'package:vakyavahan/screens/main/config.dart';
 import 'package:vakyavahan/screens/main/messages.dart';
 
@@ -9,9 +10,10 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-const List<Widget> bottomNavigationBarScreens = [
-  MessagesScreen(),
-  ConfigScreen()
+List<Widget> bottomNavigationBarScreens = [
+  const MessagesScreen(),
+  DonateScreen(),
+  const ConfigScreen()
 ];
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -37,10 +39,10 @@ class _HomeScreenState extends State<HomeScreen> {
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.monetization_on),
-            label: "Donate",
-            tooltip: "Please cutie, donate up. You'll get my prayers, god will help you"
-          ),
+              icon: Icon(Icons.monetization_on),
+              label: "Donate",
+              tooltip:
+                  "Please cutie, donate up. You'll get my prayers, god will help you"),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.settings,
