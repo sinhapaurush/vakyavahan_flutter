@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DonateScreen extends StatelessWidget {
-  DonateScreen({super.key});
+  const DonateScreen({super.key});
 
-  Function launchDonation = () async {
+  Future<void> launchDonation() async {
     Uri donationPage = Uri.parse("https://buymeacoffee.com/sinhapaurush");
     await launchUrl(donationPage);
-  };
+  }
 
   @override
   Widget build(BuildContext context) {

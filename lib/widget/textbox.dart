@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class TextBox extends StatelessWidget {
   final String label;
   final TextEditingController controller;
