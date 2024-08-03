@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vakyavahan/methods/server.dart';
+import 'package:vakyavahan/methods/verify_user.dart';
 import 'package:vakyavahan/screens/home.dart';
 import 'package:vakyavahan/widget/button.dart';
 import 'package:vakyavahan/widget/spacer.dart';
@@ -37,12 +38,40 @@ class RegisterState extends State {
     String? clientToken = sp.getString("client");
 
     if ((authToken != null) && (clientToken != null)) {
-      if (mounted) {
+      bool validUser = await verifyExistingLoginCredentials();
+      if (mounted == true && validUser == true) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (BuildContext context_) {
             return const HomeScreen();
           }),
         );
+      } else {
+        if (mounted) {
+          showDialog(
+              context: context,
+              builder: (BuildContext context_) {
+                return AlertDialog(
+                  backgroundColor: Colors.black,
+                  title: const Text("Oops!"),
+                  content: const Text(
+                      "Couldn't find your token on the server. This could be because the token were revoked due to inactivity."),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text(
+                        "Ok",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    )
+                  ],
+                );
+              });
+        }
+        setState(() {
+          isProgress = false;
+        });
       }
     } else {
       setState(() {

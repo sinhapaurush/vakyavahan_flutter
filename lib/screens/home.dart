@@ -11,7 +11,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 List<Widget> bottomNavigationBarScreens = [
-  const MessagesScreen(),
+  MessagesScreen(),
   DonateScreen(),
   const ConfigScreen()
 ];
