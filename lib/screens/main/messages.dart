@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../widget/message.dart';
 
@@ -53,6 +54,10 @@ class _MessagesScreenState extends State<MessagesScreen> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Color.fromARGB(255, 54, 54, 54),
+      statusBarBrightness: Brightness.light,
+    ));
     loadList();
   }
 
@@ -92,18 +97,38 @@ class _MessagesScreenState extends State<MessagesScreen> {
               ),
             ),
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext conttext_, int index) {
-                return SMSBox(
-                  message: messageListToRender[index]['message'],
-                  phone: messageListToRender[index]['phone'],
-                  time: messageListToRender[index]['time'],
-                );
-              },
-              childCount: messageListToRender.length,
-            ),
-          ),
+          messageListToRender.isEmpty
+              ? SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 50),
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: const Column(
+                        children: [
+                          Icon(Icons.emoji_emotions, size: 60,),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Text("Nothing to show here", style: TextStyle(
+                            fontSize: 20
+                          ),)
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              : SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext conttext_, int index) {
+                      return SMSBox(
+                        message: messageListToRender[index]['message'],
+                        phone: messageListToRender[index]['phone'],
+                        time: messageListToRender[index]['time'],
+                      );
+                    },
+                    childCount: messageListToRender.length,
+                  ),
+                ),
         ],
       ),
     );

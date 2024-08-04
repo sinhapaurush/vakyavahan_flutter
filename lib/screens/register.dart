@@ -1,5 +1,7 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vakyavahan/methods/auto_login.dart';
 import 'package:vakyavahan/methods/server.dart';
 import 'package:vakyavahan/methods/verify_user.dart';
 import 'package:vakyavahan/screens/home.dart';
@@ -32,7 +34,6 @@ class RegisterState extends State {
   }
 
   Future<void> checkExistingLoginCreds() async {
-    super.initState();
     SharedPreferences sp = await SharedPreferences.getInstance();
     String? authToken = sp.getString("auth");
     String? clientToken = sp.getString("client");
@@ -74,9 +75,22 @@ class RegisterState extends State {
         });
       }
     } else {
-      setState(() {
-        isProgress = false;
-      });
+      DeviceInfoPlugin device = DeviceInfoPlugin();
+      var androidInfo = await device.androidInfo;
+      String devID = androidInfo.id;
+      bool autoSignInSuccess = await autoLogin(devID);
+      if (!autoSignInSuccess) {
+        setState(() {
+          isProgress = false;
+        });
+      } else {
+        if (mounted) {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (BuildContext context) {
+            return const HomeScreen();
+          }));
+        }
+      }
     }
   }
 

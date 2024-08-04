@@ -8,7 +8,7 @@ Future<bool> verifyExistingLoginCredentials() async {
   String auth = sp.getString("auth")!;
   String client = sp.getString("client")!;
   Map result = await backend.post(
-      "verify-user", "application/json", {"auth": auth, "client": client});
+      "check-exists", "application/json", {"auth": auth, "client": client});
   if (result['status'] == 200) {
     return true;
   }

@@ -47,33 +47,19 @@ class Server {
 
 Server serverInstance = Server();
 Future<bool> newAccountRequest(String name, String org) async {
-  String devId = "dummyidisherefornonandroidosfordebug";
-    Map response = await serverInstance.post(
-      "new-user",
-      "application/json",
-      {"name": name, "org": org, "deviceid": devId},
-    );
+  String devId = await serverInstance.deviceId();
+  Map response = await serverInstance.post(
+    "new-user",
+    "application/json",
+    {"name": name, "org": org, "deviceid": devId},
+  );
   if (response['status'] == 200) {
     SharedPreferences sp = await SharedPreferences.getInstance();
     sp.setString("auth", response['authtoken']);
     sp.setString("client", response['clienttoken']);
     sp.setString("username", name);
     sp.setString("org", org);
-    String dummyData = """
-                        [
-                          {
-                            "message":"Hello",
-                            "phone":"232434535",
-                            "time":"18 Aug 2024"
-                          },
-                          {
-                            "message":"word",
-                            "phone":"56456532",
-                            "time":"18 Aug 2024"
-                          }
-                        ]
-                      """;
-    sp.setString("message", dummyData);
+    sp.setString("message", "[]");
     return true;
   }
   return false;
