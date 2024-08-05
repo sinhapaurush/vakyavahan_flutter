@@ -5,7 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Server {
-  final String baseURI = "http://192.168.1.9:5000";
+  final String baseURI = "http://192.168.148.201:5000";
+  final String wsUri = "ws://192.168.148.201:5000";
 
   String uriEncoded(Map<String, String> body) {
     String resultantContent =

@@ -5,6 +5,7 @@ Future<bool> autoLogin(String deviceId) async {
   Server service = Server();
   Map response = await service
       .post("auto-login", "application/json", {"deviceid": deviceId});
+      print("$response");
   if (response['status'] == 200) {
     SharedPreferences sp = await SharedPreferences.getInstance();
     sp.setString("auth", response['auth']);
